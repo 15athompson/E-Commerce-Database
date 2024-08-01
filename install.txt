@@ -1,0 +1,72 @@
+connect to posgreSQL database
+
+1. install pgBouncer:
+
+sudo apt-get install pgbouncer
+
+Install MADlib:
+
+bashCopysudo apt-get install postgresql-12-madlib
+
+Enable MADlib in your database:
+
+sqlCopyCREATE EXTENSION madlib;
+
+# Install TimescaleDB
+sudo add-apt-repository ppa:timescale/timescaledb-ppa
+sudo apt-get update
+sudo apt-get install timescaledb-postgresql-13
+
+# Enable TimescaleDB
+sudo timescaledb-tune --quiet --yes
+sudo systemctl restart postgresql
+
+# Install AgensGraph
+wget https://github.com/bitnine-oss/agensgraph/releases/download/v2.1.3/agensgraph-2.1.3.tar.gz
+tar xvfz agensgraph-2.1.3.tar.gz
+cd agensgraph-2.1.3
+./configure
+make install
+
+# Enable AgensGraph
+CREATE EXTENSION agensgraph;
+
+# Install PL/Python and MADlib
+sudo apt-get install postgresql-plpython3-13 postgresql-13-madlib
+
+# Enable extensions
+CREATE EXTENSION plpython3u;
+CREATE EXTENSION madlib;
+
+# Install pgAudit and pg_cron
+sudo apt-get install postgresql-13-pgaudit postgresql-13-cron
+
+# Enable extensions
+CREATE EXTENSION pgaudit;
+CREATE EXTENSION pg_cron;
+
+
+-----------------------------
+
+Backup and Recovery Failures
+Problem:
+Inadequate backup strategies or failed recovery processes can lead to data loss.
+Solutions:
+
+Implement automated, regular backups
+Test recovery processes regularly
+Use Point-in-Time Recovery (PITR) for more granular recovery options
+
+Example:
+bashCopy# Perform a full backup
+pg_basebackup -D /backup/full_backup -Ft -Xf -P
+
+# Continuous archiving (in postgresql.conf)
+archive_mode = on
+archive_command = 'test ! -f /archive/%f && cp %p /archive/%f'
+
+# Perform PITR
+pg_ctl -D /data stop
+pg_resetwal -D /data
+restore_command = 'cp /archive/%f %p'
+recovery_target_time = '2023-06-29 14:30:00'
