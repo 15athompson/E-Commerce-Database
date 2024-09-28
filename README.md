@@ -1,1 +1,1 @@
-discuss how to integrate these solutions into the broader e-commerce database design display the outputs of this if it was connected to a database write a README.md for this project
+
