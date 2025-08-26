@@ -268,14 +268,6 @@ python tests/data_integrity_check.py
 - **Caching**: Redis deployment and cache warming
 - **CDN**: Static asset distribution for global performance
 
-## Documentation
-
-- [Database Schema Documentation](docs/schema.md)
-- [API Reference](docs/api.md)
-- [Performance Tuning Guide](docs/performance.md)
-- [Security Best Practices](docs/security.md)
-- [Troubleshooting Guide](docs/troubleshooting.md)
 
 
 
-*This project demonstrates enterprise-level database design and optimization techniques suitable for modern e-commerce platforms. It showcases advanced PostgreSQL features, security best practices, and scalability solutions that can handle real-world production workloads.*
